@@ -154,16 +154,24 @@ export default function useWebRTC(roomID) {
   useEffect(() => {
     async function startCapture() {
       const accept = window.confirm('пк?')
+      const isv = window.confirm('видео?')
       localMediaStream.current =
         accept
           ? await navigator.mediaDevices.getDisplayMedia({
             audio: true,
             video: true
           })
-          : await navigator.mediaDevices.getUserMedia({
-            audio: true,
-            video: false
-          })
+          : (
+            isv
+              ? await navigator.mediaDevices.getUserMedia({
+                audio: true,
+                video: true
+              })
+              : await navigator.mediaDevices.getUserMedia({
+                audio: true,
+                video: false
+              })
+          )
 
       addNewClient(LOCAL_VIDEO, () => {
         const localVideoElement = peerMediaElements.current[LOCAL_VIDEO];
