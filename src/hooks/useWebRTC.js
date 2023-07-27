@@ -153,7 +153,7 @@ export default function useWebRTC(roomID) {
 
   useEffect(() => {
     async function startCapture() {
-      const accept = confirm()
+      const accept = window.confirm('пк?')
       localMediaStream.current =
         accept
           ? await navigator.mediaDevices.getDisplayMedia({
