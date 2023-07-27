@@ -162,7 +162,7 @@ export default function useWebRTC(roomID) {
           })
           : await navigator.mediaDevices.getUserMedia({
             audio: true,
-            video: true
+            video: false
           })
 
       addNewClient(LOCAL_VIDEO, () => {
