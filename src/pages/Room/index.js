@@ -4,21 +4,20 @@ import useWebRTC, {LOCAL_VIDEO} from '../../hooks/useWebRTC';
 export default function Room() {
   const {id: roomID} = useParams();
   const {clients, provideMediaRef} = useWebRTC(roomID);
-  
+
   return (
     <div style={{
       display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flexWrap: 'wrap',
+      flexDirection: 'column',
+      width: '100%',
       height: '100vh',
     }}>
       {clients.map((clientID, index) => {
         return (
           <div key={clientID} id={clientID}>
             <video
-              width='100%'
-              height='100%'
+              width='auto'
+              height='100vh'
               ref={instance => {
                 provideMediaRef(clientID, instance);
               }}
