@@ -3,3 +3,27 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+html, body {
+  width: 100%;
+}
+
+body {
+  font-family: monospace;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #313338;
+  padding: 30px;
+}
+
+h1 {
+  margin-bottom: 30px;
+}
+
+button {
+  border: 2px solid #5fffea;
+  border-radius: 8px;
+  padding: 8px 10px;
+  background-color: transparent;
+  color: #ffffff;
+}

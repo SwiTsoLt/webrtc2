@@ -19,7 +19,7 @@ export default function Main() {
 
   return (
     <div ref={rootNode}>
-      <h1>Available Rooms</h1>
+      <h1>Комнаты</h1>
 
       <ul>
         {rooms.map(roomID => (
@@ -34,7 +34,7 @@ export default function Main() {
 
       <button onClick={() => {
         history.push(`/room/${v4()}`);
-      }}>Create New Room</button>
+      }}>Создать комнату</button>
     </div>
   );
 }
