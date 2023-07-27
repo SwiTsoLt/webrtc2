@@ -18,7 +18,7 @@ export default function Main() {
   }, []);
 
   return (
-    <div ref={rootNode}>
+    <div className='Main' ref={rootNode}>
       <h1>Комнаты</h1>
 
       <ul>

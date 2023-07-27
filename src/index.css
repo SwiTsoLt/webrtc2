@@ -13,6 +13,9 @@ body {
   height: 100vh;
   overflow: hidden;
   background-color: #313338;
+}
+
+.Main {
   padding: 30px;
 }
 
