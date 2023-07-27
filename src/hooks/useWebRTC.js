@@ -1,4 +1,4 @@
-import {useEffect, useRef, useCallback} from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import freeice from 'freeice';
 import useStateWithCallback from './useStateWithCallback';
 import socket from '../socket';
@@ -27,7 +27,7 @@ export default function useWebRTC(roomID) {
   });
 
   useEffect(() => {
-    async function handleNewPeer({peerID, createOffer}) {
+    async function handleNewPeer({ peerID, createOffer }) {
       if (peerID in peerConnections.current) {
         return console.warn(`Already connected to peer ${peerID}`);
       }
@@ -46,7 +46,7 @@ export default function useWebRTC(roomID) {
       }
 
       let tracksNumber = 0;
-      peerConnections.current[peerID].ontrack = ({streams: [remoteStream]}) => {
+      peerConnections.current[peerID].ontrack = ({ streams: [remoteStream] }) => {
         tracksNumber++
 
         if (tracksNumber === 2) { // video & audio tracks received
@@ -96,7 +96,7 @@ export default function useWebRTC(roomID) {
   }, []);
 
   useEffect(() => {
-    async function setRemoteMedia({peerID, sessionDescription: remoteDescription}) {
+    async function setRemoteMedia({ peerID, sessionDescription: remoteDescription }) {
       await peerConnections.current[peerID]?.setRemoteDescription(
         new RTCSessionDescription(remoteDescription)
       );
@@ -121,7 +121,7 @@ export default function useWebRTC(roomID) {
   }, []);
 
   useEffect(() => {
-    socket.on(ACTIONS.ICE_CANDIDATE, ({peerID, iceCandidate}) => {
+    socket.on(ACTIONS.ICE_CANDIDATE, ({ peerID, iceCandidate }) => {
       peerConnections.current[peerID]?.addIceCandidate(
         new RTCIceCandidate(iceCandidate)
       );
@@ -133,7 +133,7 @@ export default function useWebRTC(roomID) {
   }, []);
 
   useEffect(() => {
-    const handleRemovePeer = ({peerID}) => {
+    const handleRemovePeer = ({ peerID }) => {
       if (peerConnections.current[peerID]) {
         peerConnections.current[peerID].close();
       }
@@ -153,13 +153,17 @@ export default function useWebRTC(roomID) {
 
   useEffect(() => {
     async function startCapture() {
-      localMediaStream.current = await navigator.mediaDevices.getUserMedia({
-        audio: true,
-        video: {
-          width: 1280,
-          height: 720,
-        }
-      });
+      const accept = confirm()
+      localMediaStream.current =
+        accept
+          ? await navigator.mediaDevices.getDisplayMedia({
+            audio: true,
+            video: true
+          })
+          : await navigator.mediaDevices.getUserMedia({
+            audio: true,
+            video: true
+          })
 
       addNewClient(LOCAL_VIDEO, () => {
         const localVideoElement = peerMediaElements.current[LOCAL_VIDEO];
@@ -172,7 +176,7 @@ export default function useWebRTC(roomID) {
     }
 
     startCapture()
-      .then(() => socket.emit(ACTIONS.JOIN, {room: roomID}))
+      .then(() => socket.emit(ACTIONS.JOIN, { room: roomID }))
       .catch(e => console.error('Error getting userMedia:', e));
 
     return () => {
